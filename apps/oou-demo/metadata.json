@@ -1,0 +1,15 @@
+{ 
+  "id": "oou-demo",
+  "name": "oou-demo",
+  "shortName":"Short Name",
+  "version":"0.01",
+  "description": "demo app",
+  "icon": "icon.png",
+  "tags": "",
+  "supports" : ["BANGLEJS2"],  
+  "readme": "README.md",
+  "storage": [
+    {"name":"oou.app.js","url":"app.js"},
+    {"name":"oou.img","url":"app-icon.js","evaluate":true}
+  ]
+}
