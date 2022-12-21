@@ -23,6 +23,7 @@ function countDown() {
     return;
   }
 
+  
   g.clear();
   g.setFontAlign(0,0); // center font
   g.setFont("Vector",80); // vector font, 80px  
