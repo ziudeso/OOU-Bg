@@ -171,7 +171,7 @@ window.addEventListener('load', (event) => {
     </div>
     </div>
   </div>`;
-  showPrompt("Which Bangle.js?",html,{},false);
+  // showPrompt("Which Bangle.js?",html,{},false); //TODO: mine
   var usageStats = document.getElementById("usage_stats");
   usageStats.addEventListener("change",event=>{
     console.log("Send Usage Stats "+(event.target.checked?"on":"off"));
