@@ -1,34 +1,42 @@
-// place your const, vars, functions or classes here
+var counter = 30;
+var counterInterval;
 
-// clear the screen
-g.clear();
-
-var n = 0;
-
-// redraw the screen
-function draw() {
-  g.reset().clearRect(Bangle.appRect);
-  g.setFont("6x8").setFontAlign(0,0).drawString("Up / Down",g.getWidth()/2,g.getHeight()/2 - 20);
-  g.setFont("Vector",60).setFontAlign(0,0).drawString(n,g.getWidth()/2,g.getHeight()/2 + 30);
+function outOfTime() {
+  if (counterInterval) return;
+  E.showMessage("Out of Time", "My Timer");
+  Bangle.buzz();
+  Bangle.beep(200, 4000)
+    .then(() => new Promise(resolve => setTimeout(resolve,200)))
+    .then(() => Bangle.beep(200, 3000));
+  // again, 10 secs later
+  setTimeout(outOfTime, 10000);
 }
 
-// Respond to user input
-Bangle.setUI({mode: "updown"}, function(dir) {
-  if (dir<0) {
-    n--;
-    draw();
-  } else if (dir>0) {
-    n++;
-    draw();
-  } else {
-    n = 0;
-    draw();
+function countDown() {
+  counter--;
+  // Out of time
+  if (counter<=0) {
+    clearInterval(counterInterval);
+    counterInterval = undefined;
+    setWatch(startTimer, (process.env.HWVERSION==2) ? BTN1 : BTN2)
+    outOfTime();
+    return;
   }
-});
 
-// First draw...
-draw();
+  g.clear();
+  g.setFontAlign(0,0); // center font
+  g.setFont("Vector",80); // vector font, 80px  
+  // draw the current counter value
+  g.drawString(counter,120,120);
+  // optional - this keeps the watch LCD lit up
+  Bangle.setLCDPower(1);
+}
 
-// Load widgets
-Bangle.loadWidgets();
-Bangle.drawWidgets();
+function startTimer() {
+  counter = 30;
+  countDown();
+  if (!counterInterval)
+    counterInterval = setInterval(countDown, 1000);
+}
+
+startTimer();
